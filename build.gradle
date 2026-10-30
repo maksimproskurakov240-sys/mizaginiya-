@@ -1,25 +1,9 @@
-plugins {
-    id 'com.android.application'
-}
-
-android {
-    namespace 'com.myapp.ui'
-    compileSdk 34
-
-    defaultConfig {
-        applicationId "com.myapp.ui"   // <-- пакет, можно сменить
-        minSdk 21
-        targetSdk 34
-        versionCode 1
-        versionName "1.0"
+buildscript {
+    repositories {
+        google()
+        mavenCentral()
     }
-
-    compileOptions {
-        sourceCompatibility JavaVersion.VERSION_17
-        targetCompatibility JavaVersion.VERSION_17
+    dependencies {
+        classpath 'com.android.tools.build:gradle:8.2.0'
     }
-}
-
-dependencies {
-    implementation 'androidx.appcompat:appcompat:1.6.1'
 }
