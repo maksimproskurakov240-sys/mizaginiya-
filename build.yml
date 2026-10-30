@@ -10,6 +10,80 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Arrange project structure
+        run: |
+          mkdir -p app/src/main/java/com/myapp/ui
+          mkdir -p app/src/main/res/layout
+          mkdir -p app/src/main/res/drawable
+          mkdir -p app/src/main/res/values
+          mkdir -p app/src/main/res/mipmap-mdpi
+          mkdir -p app/src/main/res/mipmap-hdpi
+          mkdir -p app/src/main/res/mipmap-xhdpi
+          mkdir -p app/src/main/res/mipmap-xxhdpi
+          mkdir -p app/src/main/res/mipmap-xxxhdpi
+          cp MainActivity.java    app/src/main/java/com/myapp/ui/
+          cp ClickSound.java      app/src/main/java/com/myapp/ui/
+          cp AndroidManifest.xml  app/src/main/
+          cp activity_main.xml    app/src/main/res/layout/
+          cp bg.png               app/src/main/res/drawable/
+          cp btn_bg.xml           app/src/main/res/drawable/
+          cp strings.xml          app/src/main/res/values/
+          cp themes.xml           app/src/main/res/values/
+          cp ic_launcher.png               app/src/main/res/mipmap-mdpi/ic_launcher.png
+          cp "ic_launcher (1).png"         app/src/main/res/mipmap-hdpi/ic_launcher.png
+          cp "ic_launcher (3).png"         app/src/main/res/mipmap-xhdpi/ic_launcher.png
+          cp "ic_launcher (5).png"         app/src/main/res/mipmap-xxhdpi/ic_launcher.png
+          cp "ic_launcher (7).png"         app/src/main/res/mipmap-xxxhdpi/ic_launcher.png
+          cp ic_launcher_round.png            app/src/main/res/mipmap-mdpi/ic_launcher_round.png
+          cp "ic_launcher_round (2).png"      app/src/main/res/mipmap-hdpi/ic_launcher_round.png
+          cp "ic_launcher_round (4).png"      app/src/main/res/mipmap-xhdpi/ic_launcher_round.png
+          cp "ic_launcher_round (6).png"      app/src/main/res/mipmap-xxhdpi/ic_launcher_round.png
+          cp "ic_launcher_round (8).png"      app/src/main/res/mipmap-xxxhdpi/ic_launcher_round.png
+
+      - name: Write Gradle files
+        run: |
+          python3 - << 'EOF'
+          import os
+          os.makedirs('app', exist_ok=True)
+          open('build.gradle','w').write(
+              "buildscript {\n"
+              "    repositories {\n"
+              "        google()\n"
+              "        mavenCentral()\n"
+              "    }\n"
+              "    dependencies {\n"
+              "        classpath 'com.android.tools.build:gradle:8.2.0'\n"
+              "    }\n"
+              "}\n"
+          )
+          open('settings.gradle','w').write(
+              'rootProject.name = "MyApp"\n'
+              "include ':app'\n"
+          )
+          open('app/build.gradle','w').write(
+              "apply plugin: 'com.android.application'\n"
+              "android {\n"
+              "    namespace 'com.myapp.ui'\n"
+              "    compileSdk 34\n"
+              "    defaultConfig {\n"
+              '        applicationId "com.myapp.ui"\n'
+              "        minSdk 21\n"
+              "        targetSdk 34\n"
+              "        versionCode 1\n"
+              '        versionName "1.0"\n'
+              "    }\n"
+              "    compileOptions {\n"
+              "        sourceCompatibility JavaVersion.VERSION_17\n"
+              "        targetCompatibility JavaVersion.VERSION_17\n"
+              "    }\n"
+              "}\n"
+              "dependencies {\n"
+              "    implementation 'androidx.appcompat:appcompat:1.6.1'\n"
+              "}\n"
+          )
+          print("Gradle files ready!")
+          EOF
+
       - uses: actions/setup-java@v4
         with:
           distribution: temurin
