@@ -1,3 +1,23 @@
-plugins {
-    id 'com.android.application' version '8.2.0' apply false
+apply plugin: 'com.android.application'
+
+android {
+    namespace 'com.myapp.ui'
+    compileSdk 34
+
+    defaultConfig {
+        applicationId "com.myapp.ui"
+        minSdk 21
+        targetSdk 34
+        versionCode 1
+        versionName "1.0"
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+}
+
+dependencies {
+    implementation 'androidx.appcompat:appcompat:1.6.1'
 }
